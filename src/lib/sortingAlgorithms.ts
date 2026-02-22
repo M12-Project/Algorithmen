@@ -162,11 +162,93 @@ export function* quickSort(arr: number[]): Generator<SortStep> {
   yield { array: [...a], states: [...states], comparisons, swaps };
 }
 
+export function* mergeSort(arr: number[]): Generator<SortStep> {
+  const a = [...arr];
+  const n = a.length;
+  const states: BarState[] = new Array(n).fill('default');
+  let comparisons = 0;
+  let swaps = 0;
+
+  function* merge(left: number, mid: number, right: number): Generator<SortStep> {
+    const leftArr = a.slice(left, mid + 1);
+    const rightArr = a.slice(mid + 1, right + 1);
+
+    let i = 0;
+    let j = 0;
+    let k = left;
+
+    while (i < leftArr.length && j < rightArr.length) {
+      states.fill('default');
+      states[k] = 'active';
+      comparisons++;
+
+      yield { array: [...a], states: [...states], comparisons, swaps };
+
+      if (leftArr[i] <= rightArr[j]) {
+        a[k] = leftArr[i];
+        i++;
+      } else {
+        a[k] = rightArr[j];
+        j++;
+      }
+      swaps++;
+      k++;
+
+      yield { array: [...a], states: [...states], comparisons, swaps };
+    }
+
+    while (i < leftArr.length) {
+      states.fill('default');
+      states[k] = 'active';
+      a[k] = leftArr[i];
+      i++;
+      k++;
+      swaps++;
+      yield { array: [...a], states: [...states], comparisons, swaps };
+    }
+
+    while (j < rightArr.length) {
+      states.fill('default');
+      states[k] = 'active';
+      a[k] = rightArr[j];
+      j++;
+      k++;
+      swaps++;
+      yield { array: [...a], states: [...states], comparisons, swaps };
+    }
+
+    for (let x = left; x <= right; x++) {
+      states[x] = 'sorted';
+    }
+    yield { array: [...a], states: [...states], comparisons, swaps };
+  }
+
+  function* sort(left: number, right: number): Generator<SortStep> {
+    if (left >= right) {
+      states[left] = 'sorted';
+      yield { array: [...a], states: [...states], comparisons, swaps };
+      return;
+    }
+
+    const mid = Math.floor((left + right) / 2);
+
+    yield* sort(left, mid);
+    yield* sort(mid + 1, right);
+    yield* merge(left, mid, right);
+  }
+
+  yield* sort(0, n - 1);
+
+  states.fill('sorted');
+  yield { array: [...a], states: [...states], comparisons, swaps };
+}
+
 export const algorithms = {
   'Bubble Sort': bubbleSort,
   'Selection Sort': selectionSort,
   'Insertion Sort': insertionSort,
   'Quick Sort': quickSort,
+  'Merge Sort': mergeSort,
 } as const;
 
 export type AlgorithmName = keyof typeof algorithms;

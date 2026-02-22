@@ -2,10 +2,26 @@ import { AlgorithmName } from '@/lib/sortingAlgorithms';
 import { BarChart3 } from 'lucide-react';
 
 const algorithmInfo: Record<AlgorithmName, { complexity: string; description: string }> = {
-  'Bubble Sort': { complexity: 'O(n²)', description: 'Vergleicht benachbarte Elemente und tauscht sie' },
-  'Selection Sort': { complexity: 'O(n²)', description: 'Findet das Minimum und tauscht es an die richtige Stelle' },
-  'Insertion Sort': { complexity: 'O(n²)', description: 'Fügt jedes Element an der richtigen Stelle ein' },
-  'Quick Sort': { complexity: 'O(n log n)', description: 'Teilt das Array um ein Pivot-Element' },
+  'Bubble Sort': {
+    complexity: 'O(n²)',
+    description: 'Vergleicht benachbarte Elemente und tauscht sie',
+  },
+  'Selection Sort': {
+    complexity: 'O(n²)',
+    description: 'Findet das Minimum und tauscht es an die richtige Stelle',
+  },
+  'Insertion Sort': {
+    complexity: 'O(n²)',
+    description: 'Fügt jedes Element an der richtigen Stelle ein',
+  },
+  'Quick Sort': {
+    complexity: 'O(n log n)',
+    description: 'Teilt das Array rekursiv um ein Pivot-Element',
+  },
+  'Merge Sort': {
+    complexity: 'O(n log n)',
+    description: 'Teilt das Array in Hälften und führt sie sortiert wieder zusammen',
+  },
 };
 
 interface SidebarProps {
