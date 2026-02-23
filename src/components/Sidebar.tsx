@@ -36,7 +36,7 @@ export default function Sidebar({ selected, onSelect, disabled }: SidebarProps) 
       <div className="p-5 border-b border-sidebar-border flex items-center gap-3">
         <BarChart3 className="w-6 h-6 text-primary" />
         <h1 className="text-lg font-bold font-mono text-sidebar-accent-foreground glow-text tracking-tight">
-          AlgoDat
+          AlgoChart
         </h1>
       </div>
 
